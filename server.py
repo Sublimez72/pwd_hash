@@ -49,7 +49,7 @@ try:
     if not password:
         raise Exception('Password file/first line is empty')
 
-    log.debug(f'Password read from "/etc/server_password.txt" was "{password}"')
+    log.info(f'Password read from "/etc/server_password.txt" was "{password}"')
 
 except Exception as error_message:
     log.error(f'Failed to read password from "/etc/server_password.txt": {error_message}')
