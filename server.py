@@ -36,15 +36,9 @@ log.getLogger().setLevel(log_level)
 # Load and configure password used to protect server
 log.info('Reading password from "/etc/server_password.txt"')
 try:
-    # Instead of storing the password in plain text we will put it through 2 rounds of hashing.
-    with open("/etc/server_password.txt", "r") as f:
-        password = f.readline().strip()
-
-    with open("/etc/server_password.txt", "w") as f:
-        for _ in range(2):
-            p = hashlib.sha384()
-            p.update(f'{password}'.encode('utf-8'))
-        f.write(p.hexdigest())
+    with open('/etc/server_password.txt', 'r') as file_handle:
+        # If there are white-space characters before or after the password string, remove them
+        password = file_handle.readline().strip()
     
     if not password:
         raise Exception('Password file/first line is empty')
