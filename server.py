@@ -88,10 +88,9 @@ def get_gift_advice():
 
     # Implementing 2 (for speed) rounds of hashing
     request_password = request.headers['X-Secret-Password']
-    for _ in range(2):
-        p = hashlib.sha384()
-        p.update(f'{request_password}'.encode('utf-8'))
-        request_password = p.hexdigest()
+    p = hashlib.sha384()
+    p.update(f'{request_password}'.encode('utf-8'))
+    request_password = p.hexdigest()
 
     # Compare request password with stored password 
     if request_password != password:
