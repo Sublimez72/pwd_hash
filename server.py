@@ -9,6 +9,7 @@
 import logging as log
 import random
 import os
+import hashlib
 
 log.basicConfig(format='%(levelname)s: %(message)s', level=log.INFO)
 
@@ -35,9 +36,16 @@ log.getLogger().setLevel(log_level)
 # Load and configure password used to protect server
 log.info('Reading password from "/etc/server_password.txt"')
 try:
-    with open('/etc/server_password.txt', 'r') as file_handle:
-        # If there are white-space characters before or after the password string, remove them
-        password = file_handle.readline().strip()
+    # Instead of storing the password in plain text we will put it through 2 rounds of hashing.
+    with open("/etc/server_password.txt", "r") as f:
+        password = f.readline().strip()
+
+    with open("/etc/server_password.txt", "w") as f:
+        for _ in range(2):
+            p = hashlib.sha384()
+            p.update(f'{password}'.encode('utf-8'))
+        f.write(p.hexdigest())
+    
     if not password:
         raise Exception('Password file/first line is empty')
 
@@ -46,6 +54,8 @@ try:
 except Exception as error_message:
     log.error(f'Failed to read password from "/etc/server_password.txt": {error_message}')
     exit(1)
+
+
 
 
 # Silly function used to generate dynamic server responses
@@ -82,7 +92,12 @@ def get_gift_advice():
         log.warning('Got request without the password header "X-Secret-Password" included')
         abort(401)
 
+    # Implementing 2 (for speed) rounds of hashing
     request_password = request.headers['X-Secret-Password']
+    for _ in range(2):
+        p = hashlib.sha384()
+        p.update(f'{request_password}'.encode('utf-8'))
+        request_password = p.hexdigest()
 
     # Compare request password with stored password 
     if request_password != password:
