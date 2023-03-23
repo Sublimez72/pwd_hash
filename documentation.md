@@ -12,5 +12,7 @@ since I only wanted make sure that the password that the server was using was co
 Lastly I formatted the script in Visual Studio Code using autopep8 which is why some lines look different while the code has not
 actually changed.
 
-![CAT](cat.webp)
-
+Before we implemented hashing.
+![NOT_HASHED](not_hashed.png)
+After we implemented hashing.
+![HASHED](hashed.png)
