@@ -20,7 +20,6 @@ except:
     log.error('Failed to import required third-party module "flask"')
     exit(1)
 
-
 # Configure application log level
 if 'LOG_LEVEL' in os.environ and os.environ['LOG_LEVEL'] == 'INFO':
     log_level = log.INFO
@@ -50,7 +49,7 @@ try:
     if not password:
         raise Exception('Password file/first line is empty')
 
-    log.info(f'Password read from "/etc/server_password.txt" was "{password}"')
+    log.debug(f'Password read from "/etc/server_password.txt" was "{password}"')
 
 except Exception as error_message:
     log.error(f'Failed to read password from "/etc/server_password.txt": {error_message}')
