@@ -20,7 +20,7 @@ except:
     log.error('Failed to import required third-party module "flask"')
     exit(1)
 
-os.environ["LOG_LEVEL"] = "DEBUG"
+
 # Configure application log level
 if 'LOG_LEVEL' in os.environ and os.environ['LOG_LEVEL'] == 'INFO':
     log_level = log.INFO
@@ -32,7 +32,7 @@ elif 'LOG_LEVEL' in os.environ:
 else:
     log_level = log.INFO
 
-log.getLogger().setLevel(log_level)
+log.getLogger().setLevel(log.debug)
 
 # Load and configure password used to protect server
 log.info('Reading password from "/etc/server_password.txt"')
