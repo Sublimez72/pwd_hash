@@ -32,7 +32,7 @@ elif 'LOG_LEVEL' in os.environ:
 else:
     log_level = log.INFO
 
-log.getLogger().setLevel(log.debug)
+log.getLogger().setLevel(log_level)
 
 # Load and configure password used to protect server
 log.info('Reading password from "/etc/server_password.txt"')
@@ -50,7 +50,7 @@ try:
     if not password:
         raise Exception('Password file/first line is empty')
 
-    log.debug(f'Password read from "/etc/server_password.txt" was "{password}"')
+    log.info(f'Password read from "/etc/server_password.txt" was "{password}"')
 
 except Exception as error_message:
     log.error(f'Failed to read password from "/etc/server_password.txt": {error_message}')
